@@ -3,7 +3,7 @@
 
 安装
 ====
-    npm install officialAccounts-node --save
+    npm i official-accounts-node
 如何使用
 ===
 * officialAccounts-node向外暴露一个函数，给该函数传入你的微信公众号配置对象，函数会返回一个对象，该对象包含一个返回回复中间件的工厂函数（replyMiddleware）和一个Wechat类。
