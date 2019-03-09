@@ -9,7 +9,7 @@ const api = require('../api/api')
 const {writeFileAsync,readFileAsync} = require('../utils')
 
 module.exports = function (config) {
-    const {appID, appsecret,URL} = config;
+    const {appID, appsecret} = config;
     class Wechat {
         constructor(){
         }
