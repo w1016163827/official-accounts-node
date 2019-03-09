@@ -7,20 +7,6 @@ const {createReadStream,createWriteStream} = require('fs')
 //自己的模块
 const api = require('../api/api')
 const {writeFileAsync,readFileAsync} = require('../utils')
-/*
-* 读取本地文件(readAccessToken)
-*   -有本地文件
-*       -判断是否过期(isValidAccessToken)
-*           -过期，重新获取(getAccessToken)
-*           -没过期，直接使用
-*  -没有本地文件
-*       -获取,并且保存(saveAccessToken)
-* */
-/*
-* https请求方式: GET
-https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=APPID&secret=APPSECRET
-* */
-
 
 module.exports = function (config) {
     const {appID, appsecret,URL} = config;
@@ -37,11 +23,6 @@ module.exports = function (config) {
                     json:true
                 })
                     .then(res =>{
-                        /*
-                        * { access_token:
-           '18_qudY9PijGs_xLPGbUcEtr_FA6DreknhiuH53-E_FeY5bMHKUrRxgE-EpbJoKFBrC1XY0wjFSc4gdQUQ0mExyCtiS-vlVckTpPj96C9CffVCXYzwGDsfwDTORXUbXSGJHvyzJcfOY_C4yXH4IOJFjABABWS',
-          expires_in: 7200 }
-                        * */
                         res.expires_in = Date.now() + (res.expires_in - 300)*1000
                         resolve(res)
                     })
@@ -68,16 +49,6 @@ module.exports = function (config) {
         }
         //获取accessToken的方法
         fetchAccessToken(){
-            /*
-    * 读取本地文件(readAccessToken)
-    *   -有本地文件
-    *       -判断是否过期(isValidAccessToken)
-    *           -过期，重新获取(getAccessToken)
-    *           -没过期，直接使用
-    *  -没有本地文件
-    *       -获取,并且保存(saveAccessToken)
-    * */
-
             if(this.access_token && this.expires_in && this.isValidAccessToken(this)){
                 return Promise.resolve({
                     access_token:this.access_token,
@@ -150,11 +121,6 @@ module.exports = function (config) {
                     json:true
                 })
                     .then(res =>{
-                        /*
-                        * { access_token:
-           '18_qudY9PijGs_xLPGbUcEtr_FA6DreknhiuH53-E_FeY5bMHKUrRxgE-EpbJoKFBrC1XY0wjFSc4gdQUQ0mExyCtiS-vlVckTpPj96C9CffVCXYzwGDsfwDTORXUbXSGJHvyzJcfOY_C4yXH4IOJFjABABWS',
-          expires_in: 7200 }
-                        * */
                         let ticket_expires_in = Date.now() + (res.expires_in - 300)*1000
                         resolve({
                             ticket:res.ticket,

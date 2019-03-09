@@ -1,14 +1,5 @@
 module.exports = options =>{
     //用户加工处理最终恢复用户消息的模板（XML数据）
-    /*
-    * <xml>
-    <ToUserName><![CDATA[${userData.FromUserName}]]></ToUserName>
-    <FromUserName><![CDATA[${userData.ToUserName}]]></FromUserName>
-    <CreateTime>${Date.now()}</CreateTime>
-    <MsgType><![CDATA[text]]></MsgType>
-    <Content><![CDATA[${content}]]></Content>
-    </xml>`
-    * */
     let {MsgType} = options
     let str = `<xml>
     <ToUserName><![CDATA[${options.ToUserName}]]></ToUserName>
