@@ -71,10 +71,10 @@ Wechat类使用代码示例
 =
 ```javascript
     let {replyMiddleware,Wechat} = require('official-accounts-node')({
-        appID:"wx253179547bf85d5b",
-        appsecret:"43d879bf1d3410c641c4a57bb7baa9ca",
-        URL:"http://d1fe1451.ngrok.io",
-        Token:"shiyuchaoceshi"
+        appID:"your appID",
+        appsecret:"your appsecret",
+        URL:"your url",
+        Token:"your token"
     })  //引入中间件和Wechat类
     module.exports = {
         replyMiddleware,
