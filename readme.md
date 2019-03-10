@@ -17,16 +17,16 @@ official-accounts-node
 
   * Wechat类使用方法: 新建一个Wechat实例，接着根据需要调用相关方法即可。
 
-代码示例
+中间件使用代码示例
 =
 ```javascript
     const express = require('express')	//引入express模块
-    let {replyMiddleware,Wechat} = require('official-accounts-node')({
+    let {replyMiddleware} = require('official-accounts-node')({
       appID:"your appID",
       appsecret:"your appsecret",
       URL:"your url",
       Token:"your token"
-    })	//取出中间件和Wechat类
+    })	//取出中间件
     let reply = userData =>{
       let option = {}
       if(userData.MsgType === 'text'){
@@ -43,8 +43,43 @@ official-accounts-node
     const app = express()	//创建app应用对象
     app.use(replyMiddleware(reply))	//使用中间件。(如果开发者服务器验证失败，不要慌，很有可能是微信那边自己的问题，多试几次，很正常，我每次都要验证两三次才成功.)
     app.listen(3000,()=>console.log('服务器启动成功'))
-    let w = new Wechat() //新建Wechat实例，请在验证完开发者服务器以后再使用实例的方法，这里假设已经验证完毕。
-    w.createMenu(menuData)  //创建公众号菜单
+```
+Wechat类使用代码示例
+=
+
+```javascript
+    let {Wechat} = require('official-accounts-node')({
+        appID:"your appID",
+        appsecret:"your appsecret",
+        URL:"your url",
+        Token:"your token"
+    })  //取出Wechat类
+    ;(async function() {
+        let w = new Wechat()
+        let res = await w.uploadPermanentFile({
+            type:'video',
+            material:'test.mp4',
+            filePath:'../media',
+            videoBody:{
+                title:'my video',
+                introduction:'this is a video'
+            }   //上传临时视频素材
+        });
+    })()
+```
+推荐用法实例
+=
+```javascript
+    let {replyMiddleware,Wechat} = require('official-accounts-node')({
+        appID:"wx253179547bf85d5b",
+        appsecret:"43d879bf1d3410c641c4a57bb7baa9ca",
+        URL:"http://d1fe1451.ngrok.io",
+        Token:"shiyuchaoceshi"
+    })  //引入中间件和Wechat类
+    module.exports = {
+        replyMiddleware,
+        Wechat
+    }   //暴露中间件和Wechat类，使用时直接从该模块引入
 ```
 
 API(Wechat)
