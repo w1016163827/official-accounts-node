@@ -1,15 +1,15 @@
 official-accounts-node
 =
-一款让你开发微信公众号更为方便的框架，为你提供了一个可以自动生成参数验证开发者服务器有效性，并且可以解析用户发送数据和生成回复模板的中间件。以及一个Wechat类，该类的实例 提供了能够实现公众号开发的大部分功能的方法。
+一款让你开发微信公众号更为方便的框架，为你提供了一个可以自动生成参数验证开发者服务器有效性，并且可以解析用户发送数据和生成回复模板的路由中间件。以及一个Wechat类，该类的实例 提供了能够实现公众号开发的大部分功能的方法。
 
 安装
 ====
     npm i official-accounts-node
 如何使用
 ===
-* officialAccounts-node向外暴露一个函数，给该函数传入你的微信公众号配置对象，函数会返回一个对象，该对象包含一个返回回复中间件的工厂函数（replyMiddleware）和一个Wechat类。
+* officialAccounts-node向外暴露一个函数，给该函数传入你的微信公众号配置对象，函数会返回一个对象，该对象包含一个返回回复路由中间件的工厂函数（replyMiddleware）和一个Wechat类。
 
-  * 中间件使用方法：接下来，你需要定义你自己的回复函数(支持async函数,中间件将会调用await进行解析)，再调用replyMiddleware，传入你的回复函数，replyMiddleware会返回一个回复中间件，接着就可以使用express的实例调用该中间件。
+  * 中间件使用方法：接下来，你需要定义你自己的回复函数(支持async函数,中间件将会调用await进行解析)，再调用replyMiddleware，传入你的回复函数，replyMiddleware会返回一个回复中间件，接着就可以使用express的路由实例调用该中间件。
 
     * 回复函数定义方法：你的回复函数会接收到一个userData作为参数，并且你的回复函数需要返回一个option对象。userData是经过解析后返回的用户数据对象，option对象则是用来生成回复模板的必要数据。不同的返回类型需要不同的option对象（六种自动回复类型全部支持），option对象的类型以及参数详见[这里](https://mp.weixin.qq.com/wiki?t=resource/res_main&id=mp1421140543)。
 
@@ -27,6 +27,7 @@ official-accounts-node
       URL:"your url",
       Token:"your token"
     })	//取出中间件
+    app.listen(3000,()=>console.log('服务器启动成功')) //服务器监听
     let reply = userData =>{
       let option = {}
       if(userData.MsgType === 'text'){
@@ -41,8 +42,8 @@ official-accounts-node
       return option
     }	//定义一个reply函数
     const app = express()	//创建app应用对象
-    app.use(replyMiddleware(reply))	//使用中间件。(如果开发者服务器验证失败，不要慌，很有可能是微信那边自己的问题，多试几次，很正常，我每次都要验证两三次才成功.)
-    app.listen(3000,()=>console.log('服务器启动成功'))
+    const router = express.Router() //创建router实例
+    router.use(replyMiddleware(reply))	//使用路由中间件。(如果开发者服务器验证失败，不要慌，很有可能是微信那边自己的问题，多试几次，很正常，我每次都要验证两三次才成功.)
 ```
 Wechat类使用代码示例
 =
