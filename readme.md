@@ -44,6 +44,7 @@ official-accounts-node
     const app = express()	//创建app应用对象
     const router = express.Router() //创建router实例
     router.use(replyMiddleware(reply))	//使用路由中间件。(如果开发者服务器验证失败，不要慌，很有可能是微信那边自己的问题，多试几次，很正常，我每次都要验证两三次才成功.)
+    app.use(router) //应用路由
 ```
 Wechat类使用代码示例
 =
