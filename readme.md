@@ -86,7 +86,7 @@ Wechat类使用代码示例
 
 API(Wechat)
 =
-以下所有方法均为异步函数，调用时请加上await。
+以下所有方法调用均返回Promise对象，调用时请加上await。
 =
 
 `w.fetchAccessToken()`
